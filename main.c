@@ -1,57 +1,67 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include "Word.h"
 #include "BinaryTree.h"
-//#include "vector.h"
-#define alphabet "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-#define TEXTMAX 1000100
+
+#define TEXT_MAX 1000100
 
 int main() {
     FILE *in = fopen("input.txt", "r");
     FILE *out = fopen("output.txt", "w");
 
-    TreeNode *root = NULL;
+    int howMany = -1;
+    scanf("%d\n", &howMany);
 
-    char current_word[WORDMAX];
-    char text[TEXTMAX];
-    int words = 0;
+    BSTNode *root = NULL;
 
-    while(fscanf(in, "%[" alphabet "]", current_word) > 0){
-        //fputs(current_word, out);
+    char current_word[WORD_MAX];
+    char text[TEXT_MAX];
+    int uniq_words_amount = 0;
+
+    while(fscanf(in, "%[" ALPHABET "]", current_word) > 0){
 
         Word word;
-        strncpy(word, current_word, WORDMAX);
+        strncpy(word, current_word, WORD_MAX);
+        toLowerCase(&word);
 
         if(root == NULL){
             root = insert(root, word);
-            words++;
-            fscanf(in, "%[^" alphabet "]", text);
+            uniq_words_amount++;
+            fscanf(in, "%[^" ALPHABET "]", text);
             continue;
         }
 
-        TreeNode *find_node = search(root, word);
+        BSTNode *find_node = search(root, word);
         if(find_node == NULL){
             insert(root, word);
-            words++;
+            uniq_words_amount++;
         } else {
             find_node->data.rare++;
         }
 
-        fscanf(in, "%[^" alphabet "]", text);
-    }
-    //inOrderTraversal(root);
-    Vector *vec = getArray(root, words);
-    qsort(vec->data, words, sizeof(Data), &compareDataByRare);
-    int i;
-    for(i = 0; i<vec->size; i++){
-        printData(vec->data[i]);
+        fscanf(in, "%[^" ALPHABET "]", text);
     }
 
-    //printf("%s\n", root->data.word.word);
-    printf("%d", words);
+    Vector *vec = getArray(root, uniq_words_amount);
+    qsort(vec->data, uniq_words_amount, sizeof(Data), &compareDataByRare);
+
+    if(vec->size < howMany)
+        howMany = vec->size;
+
+    fprintf(out, "%d mostly used words:\n", howMany);
+
+    int i;
+    for(i = 0; i < howMany; i++){
+        printData(vec->data[i], out);
+    }
+
+    printf("%d", uniq_words_amount);
+
     fclose(in);
     fclose(out);
+
+    FreeTree(root);
+    FreeVector(vec);
 
     return 0;
 }

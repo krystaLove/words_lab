@@ -1,11 +1,12 @@
-#include "vector.h"
+#include "Vector.h"
 
-typedef struct TreeNode{
-    struct TreeNode *left, *right;
+typedef struct BSTNode{
+    struct BSTNode *left, *right;
     Data data;
-} TreeNode;
+} BSTNode;
 
-void inOrderTraversal(TreeNode *x);
-TreeNode *insert(TreeNode *x, Word word);
-TreeNode *search(TreeNode *x, Word word);
-Vector* getArray(TreeNode *x, int amount);
+void inOrderTraversal(BSTNode *x);
+BSTNode *insert(BSTNode *x, Word word);
+BSTNode *search(BSTNode *x, Word word);
+Vector* getArray(BSTNode *x, int amount);
+void FreeTree(BSTNode *x);

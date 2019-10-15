@@ -3,17 +3,17 @@
 #include <string.h>
 #include "BinaryTree.h"
 
-void inOrderTraversal(TreeNode *x){
+void inOrderTraversal(BSTNode *x){
     if(x != NULL){
         inOrderTraversal(x->left);
         printf("HERE %s %d\n", x->data.word, x->data.rare);
         inOrderTraversal(x->right);
     }
 }
-TreeNode *insert(TreeNode *x, Word word){
+BSTNode *insert(BSTNode *x, Word word){
     if(x == NULL){
-        TreeNode *treeNode = (TreeNode*) malloc(sizeof(TreeNode));
-        strncpy(treeNode->data.word, word, WORDMAX);
+        BSTNode *treeNode = (BSTNode*) malloc(sizeof(BSTNode));
+        strncpy(treeNode->data.word, word, WORD_MAX);
         treeNode->left = NULL;
         treeNode->right = NULL;
         treeNode->data.rare = 1;
@@ -26,7 +26,7 @@ TreeNode *insert(TreeNode *x, Word word){
     }
     return x;
 }
-TreeNode *search(TreeNode *x, Word word){
+BSTNode *search(BSTNode *x, Word word){
     if(x == NULL || compareWord(x->data.word, word) == 0)
         return x;
     if(compareWord(word, x->data.word) < 0)
@@ -35,7 +35,7 @@ TreeNode *search(TreeNode *x, Word word){
         return search(x->right, word);
 }
 
-static void inOrderTraversalAdd(TreeNode *x, Vector* vec) {
+static void inOrderTraversalAdd(BSTNode *x, Vector* vec) {
     if (x != NULL)
     {
         inOrderTraversalAdd(x->left, vec);
@@ -44,10 +44,17 @@ static void inOrderTraversalAdd(TreeNode *x, Vector* vec) {
     }
 }
 
-Vector* getArray(TreeNode *x, int amount){
+Vector* getArray(BSTNode *x, int amount){
     Vector *vec = (Vector*) malloc(sizeof(Vector));
     reserveVector(vec, amount);
     inOrderTraversalAdd(x, vec);
 
     return vec;
+}
+
+void FreeTree(BSTNode *x){
+    if(x == NULL) return;
+    FreeTree(x->right);
+    FreeTree(x->left);
+    free(x);
 }
