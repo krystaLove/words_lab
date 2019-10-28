@@ -6,7 +6,7 @@
 #define TEXT_MAX 1000100
 
 int main() {
-    FILE *in = fopen("input.txt", "r");
+    FILE *in = fopen("pg10.txt", "r");
     FILE *out = fopen("output.txt", "w");
 
     int howMany = -1;
@@ -18,11 +18,13 @@ int main() {
     char text[TEXT_MAX];
     int uniq_words_amount = 0;
 
+    fscanf(in, "%[^" ALPHABET "]", text);
+    
     while(fscanf(in, "%[" ALPHABET "]", current_word) > 0){
 
         Word word;
         strncpy(word, current_word, WORD_MAX);
-        toLowerCase(&word);
+        toLowerCase(word);
 
         if(root == NULL){
             root = insert(root, word);

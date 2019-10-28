@@ -4,5 +4,5 @@
 typedef char Word[WORD_MAX];
 
 int compareWord(Word a, Word b);
-void toLowerCase(Word *a);
+void toLowerCase(Word a);
 
