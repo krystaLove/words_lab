@@ -3,14 +3,16 @@
 #include <string.h>
 #include "BinaryTree.h"
 
+#define INPUT "big.txt"
+#define OUTPUT "output.txt"
 #define TEXT_MAX 1000100
 
 int main() {
-    FILE *in = fopen("pg10.txt", "r");
-    FILE *out = fopen("output.txt", "w");
+    FILE *in = fopen(INPUT, "r");
+    FILE *out = fopen(OUTPUT, "w");
 
-    int howMany = -1;
-    scanf("%d\n", &howMany);
+    int wordsToPrint = -1;
+    scanf("%d", &wordsToPrint);
 
     BSTNode *root = NULL;
 
@@ -19,23 +21,21 @@ int main() {
     int uniq_words_amount = 0;
 
     fscanf(in, "%[^" ALPHABET "]", text);
-    
+    fscanf(in, "%[" ALPHABET "]", current_word);
+    fscanf(in, "%[^" ALPHABET "]", text);
+
+    root = insert(root, current_word);
+    if(root != NULL){
+        uniq_words_amount++;
+    }
+
     while(fscanf(in, "%[" ALPHABET "]", current_word) > 0){
 
-        Word word;
-        strncpy(word, current_word, WORD_MAX);
-        toLowerCase(word);
+        toLowerCase(current_word);
 
-        if(root == NULL){
-            root = insert(root, word);
-            uniq_words_amount++;
-            fscanf(in, "%[^" ALPHABET "]", text);
-            continue;
-        }
-
-        BSTNode *find_node = search(root, word);
+        BSTNode *find_node = search(root, current_word);
         if(find_node == NULL){
-            insert(root, word);
+            insert(root, current_word);
             uniq_words_amount++;
         } else {
             find_node->data.rare++;
@@ -45,15 +45,15 @@ int main() {
     }
 
     Vector *vec = getArray(root, uniq_words_amount);
-    qsort(vec->data, uniq_words_amount, sizeof(Data), &compareDataByRare);
+    qsort(vec->data, uniq_words_amount, sizeof(Data), compareDataByRare);
 
-    if(vec->size < howMany)
-        howMany = vec->size;
+    if(vec->size < wordsToPrint)
+        wordsToPrint = vec->size;
 
-    fprintf(out, "%d mostly used words:\n", howMany);
+    fprintf(out, "%d mostly used words:\n", wordsToPrint);
 
     int i;
-    for(i = 0; i < howMany; i++){
+    for(i = 0; i < wordsToPrint; i++){
         printData(vec->data[i], out);
     }
 

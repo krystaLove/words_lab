@@ -5,3 +5,5 @@
 /cmake-build-debug/output.txt
 /cmake-build-debug/words_lab
 /cmake-build-debug/words_lab.cbp
+/cmake-build-debug/
+/.idea/words_lab.iml

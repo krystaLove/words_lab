@@ -10,14 +10,14 @@ void inOrderTraversal(BSTNode *x){
         inOrderTraversal(x->right);
     }
 }
-BSTNode *insert(BSTNode *x, Word word){
+BSTNode *insert(BSTNode *x, char* word){
     if(x == NULL){
         BSTNode *treeNode = (BSTNode*) malloc(sizeof(BSTNode));
-        strncpy(treeNode->data.word, word, WORD_MAX);
+        treeNode->data.word = malloc(sizeof(char) * (strlen(word) + 1));
+        treeNode->data.rare = 1;
+        strcpy(treeNode->data.word, word);
         treeNode->left = NULL;
         treeNode->right = NULL;
-        treeNode->data.rare = 1;
-       // printf("%s\n", treeNode->data.word.word);
         return treeNode;
     } else if(compareWord(x->data.word, word) < 0){
         x->right = insert(x->right, word);
@@ -26,7 +26,7 @@ BSTNode *insert(BSTNode *x, Word word){
     }
     return x;
 }
-BSTNode *search(BSTNode *x, Word word){
+BSTNode *search(BSTNode *x, char* word){
     if(x == NULL || compareWord(x->data.word, word) == 0)
         return x;
     if(compareWord(word, x->data.word) < 0)

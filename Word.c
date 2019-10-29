@@ -1,12 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "Word.h"
 
-int compareWord(Word a, Word b){
+int compareWord(char* a, char* b){
     return strncmp(a, b, WORD_MAX);
 }
-void toLowerCase(Word a){
+void toLowerCase(char* a){
     int i;
     int len = strnlen(a, WORD_MAX);
     for(i = 0; i<len; i++){

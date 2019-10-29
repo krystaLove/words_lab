@@ -6,7 +6,7 @@ typedef struct BSTNode{
 } BSTNode;
 
 void inOrderTraversal(BSTNode *x);
-BSTNode *insert(BSTNode *x, Word word);
-BSTNode *search(BSTNode *x, Word word);
+BSTNode *insert(BSTNode *x, char* word);
+BSTNode *search(BSTNode *x, char* word);
 Vector* getArray(BSTNode *x, int amount);
 void FreeTree(BSTNode *x);

@@ -2,7 +2,7 @@
 #include "Word.h"
 
 typedef struct Data{
-    Word word;
+    char* word;
     int rare;
 } Data;
 
